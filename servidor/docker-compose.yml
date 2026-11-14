@@ -1,0 +1,39 @@
+services:
+  enshrouded:
+    image: mornedhels/enshrouded-server:stable-wine
+    container_name: enshrouded
+    hostname: enshrouded
+    restart: unless-stopped
+    devices:
+      - /dev/ntsync:/dev/ntsync
+    stop_grace_period: 90s
+    ports:
+      - "15637:15637/udp"
+    volumes:
+      - ./game:/opt/enshrouded
+    environment:
+      - SERVER_NAME=Taverna da Guilda
+      - SERVER_SLOT_COUNT=10
+      - SERVER_ENABLE_TEXT_CHAT=true
+      - PUID=4711
+      - PGID=4711
+      # atualiza o jogo sozinho, mas só se não tiver ninguém online
+      - UPDATE_CRON=*/30 * * * *
+      - UPDATE_CHECK_PLAYERS=true
+      # backup a cada 30 min, guarda os últimos 48 (um dia)
+      # cargo Admin (você)
+      - SERVER_ROLE_0_NAME=Admin
+      - SERVER_ROLE_0_PASSWORD=SUA_SENHA_AQUI
+      - SERVER_ROLE_0_CAN_KICK_BAN=true
+      - SERVER_ROLE_0_CAN_ACCESS_INVENTORIES=true
+      - SERVER_ROLE_0_CAN_EDIT_WORLD=true
+      - SERVER_ROLE_0_CAN_EDIT_BASE=true
+      - SERVER_ROLE_0_CAN_EXTEND_BASE=true
+      - SERVER_ROLE_0_RESERVED_SLOTS=1
+      # cargo dos amigos
+      - SERVER_ROLE_1_NAME=Amigos
+      - SERVER_ROLE_1_PASSWORD=SUA_SENHA_AQUI
+      - SERVER_ROLE_1_CAN_ACCESS_INVENTORIES=true
+      - SERVER_ROLE_1_CAN_EDIT_WORLD=true
+      - SERVER_ROLE_1_CAN_EDIT_BASE=true
+      - SERVER_ROLE_1_CAN_EXTEND_BASE=true
