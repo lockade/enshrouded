@@ -1,0 +1,2 @@
+15,45 * * * * root /usr/local/bin/enshrouded-restart.sh
+5 8 * * * root /usr/local/bin/enshrouded-restart.sh --forcar
